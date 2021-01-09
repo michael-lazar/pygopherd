@@ -80,7 +80,7 @@ class HTMLFileTitleHandler(FileHandler):
                 if not line:
                     break
                 # The PY3 HTML parser doesn't handle surrogateescape
-                parser.feed(line.decode(errors="replace"))
+                parser.feed(line.decode(errors="ignore"))
             parser.close()
 
         # OK, we've parsed the file and exited because of either an EOF

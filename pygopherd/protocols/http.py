@@ -68,7 +68,7 @@ class HTTPProtocol(BaseGopherProtocol):
         self.headerslurp()
         splitted = self.requestparts[1].split("?")
         self.selector = splitted[0]
-        self.selector = urllib.parse.unquote(self.selector)
+        self.selector = urllib.parse.unquote(self.selector, errors="surrogateescape")
 
         self.selector = self.slashnormalize(self.selector)
         self.formvals = {}
@@ -131,7 +131,7 @@ class HTTPProtocol(BaseGopherProtocol):
             url = re.match("(/|)URL:(.+)$", entry.getselector()).group(2)
         elif (not entry.gethost()) and (not entry.getport()):
             # It's a link to our own server.  Make it as such.  (relative)
-            url = urllib.parse.quote(entry.getselector())
+            url = urllib.parse.quote(entry.getselector(), errors="surrogateescape")
         else:
             # Link to a different server.  Make it a gopher URL.
             url = entry.geturl(self.server.server_name, 70)
@@ -256,10 +256,14 @@ class TestHTTPProtocol(unittest.TestCase):
         protocol.handle()
         self.assertEqual(protocol.httpheaders["host"], "localhost.com")
 
-        response = self.wfile.getvalue().decode()
+        response = self.wfile.getvalue().decode(errors="surrogateescape")
         self.assertIn("HTTP/1.0 200 OK", response)
         self.assertIn("Content-Type: text/html", response)
         self.assertIn('SRC="/PYGOPHERD-HTTPPROTO-ICONS/text.gif"', response)
+
+        # Non-UTF8 files should show up in the listing. I don't know how
+        # browsers are supposed to render these, but meh.
+        self.assertIn('<TD>&nbsp;<A HREF="/%AE.txt"><TT>\udcae.txt', response)
 
     def test_http_handler_icon(self):
         request = "GET /PYGOPHERD-HTTPPROTO-ICONS/text.gif HTTP/1.1"
