@@ -29,7 +29,7 @@ changelog:
 	git log -M -C --find-copies-harder --name-status > ChangeLog
 
 docs: doc/pygopherd.8 doc/pygopherd.ps \
-	doc/pygopherd.pdf doc/pygopherd.txt
+	doc/pygopherd.pdf doc/pygopherd.txt doc/pygopherd.html
 
 doc/pygopherd.8: doc/pygopherd.sgml doc/book.sgml
 	docbook2man doc/book.sgml
@@ -42,9 +42,8 @@ doc/pygopherd.8: doc/pygopherd.sgml doc/book.sgml
 #	mv pygopherd.html doc
 
 doc/pygopherd.html: doc/pygopherd.sgml doc/book.sgml
-	docbook2html doc/book.sgml
-	mv doc/pygopherd-html/pygopherd.html doc/pygopherd.html
-	rm -r doc/pygopherd-html
+	docbook2html -u doc/book.sgml
+	mv book.html doc/pygopherd.html
 
 #doc/pygopherd.ps: doc/pygopherd.8
 #	man -t -l doc/pygopherd.8 > doc/pygopherd.ps

@@ -1,0 +1,2407 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<HTML
+><HEAD
+><TITLE
+>PyGopherd Manual</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.79"></HEAD
+><BODY
+CLASS="BOOK"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="BOOK"
+><A
+NAME="PYGOPHERD"
+></A
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="TITLE"
+><A
+NAME="AEN2"
+>PyGopherd Manual</A
+></H1
+><HR></DIV
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+>1. <A
+HREF="#PYGOPHERD.INTRO"
+>Introduction to PyGopherd</A
+></DT
+><DD
+><DL
+><DT
+>1.1. <A
+HREF="#FEATURES"
+>Features</A
+></DT
+><DT
+>1.2. <A
+HREF="#ABOUTGOPHER"
+>About Gopher</A
+></DT
+></DL
+></DD
+><DT
+>2. <A
+HREF="#QUICKSTART"
+>Quick Start</A
+></DT
+><DT
+>3. <A
+HREF="#INSTALLATION"
+>Installation</A
+></DT
+><DD
+><DL
+><DT
+>3.1. <A
+HREF="#INSTALLATION.DEBIAN"
+>Debian System-Wide Installation</A
+></DT
+><DT
+>3.2. <A
+HREF="#INSTALLATION.OTHER"
+>Other System-Wide Installation</A
+></DT
+><DT
+>3.3. <A
+HREF="#INSTALLATION.SINGLE"
+>Single-Account Installation</A
+></DT
+></DL
+></DD
+><DT
+>4. <A
+HREF="#CONFIGURATION"
+>Configuration</A
+></DT
+><DT
+>5. <A
+HREF="#HANDLERS"
+>Handlers</A
+></DT
+><DD
+><DL
+><DT
+>5.1. <A
+HREF="#HANDLERS.DIRHANDLER"
+>dir.DirHandler</A
+></DT
+><DT
+>5.2. <A
+HREF="#HANDLERS.BUCKGOPHERMAP"
+>gophermap.BuckGophermapHandler</A
+></DT
+><DT
+>5.3. <A
+HREF="#HANDLERS.COMPRESSEDFILEHANDLER"
+>file.CompressedFileHandler</A
+></DT
+><DT
+>5.4. <A
+HREF="#HANDLERS.FILEHANDLER"
+>file.FileHandler</A
+></DT
+><DT
+>5.5. <A
+HREF="#HANDLERS.HTMLFILETITLEHANDLER"
+>html.HTMLFileTitleHandler</A
+></DT
+><DT
+>5.6. <A
+HREF="#HANDLERS.MAILBOXES"
+>mbox handlers</A
+></DT
+><DT
+>5.7. <A
+HREF="#HANDLERS.PYGHANDLER"
+>pyg.PYGHandler</A
+></DT
+><DT
+>5.8. <A
+HREF="#HANDLERS.EXECHANDLER"
+>scriptexec.ExecHandler</A
+></DT
+><DT
+>5.9. <A
+HREF="#HANDLERS.UMN"
+>UMN.UMNDirHandler</A
+></DT
+><DD
+><DL
+><DT
+>5.9.1. <A
+HREF="#HANDLERS.UMN.LINKS"
+>Links</A
+></DT
+><DT
+>5.9.2. <A
+HREF="#HANDLERS.UMN.OVERRIDING"
+>Overriding Defaults</A
+></DT
+><DT
+>5.9.3. <A
+HREF="#HANDLERS.UMN.COOL"
+>Adding Cool Links</A
+></DT
+><DT
+>5.9.4. <A
+HREF="#HANDLERS.UMN.HIDING"
+>Hiding an Entry</A
+></DT
+><DT
+>5.9.5. <A
+HREF="#HANDLERS.UMN.ABSTRACTS"
+>Abstracts and Info</A
+></DT
+></DL
+></DD
+><DT
+>5.10. <A
+HREF="#HANDLERS.HTMLURLHANDLER"
+>url.HTMLURLHandler</A
+></DT
+><DT
+>5.11. <A
+HREF="#HANDLERS.URLTYPEREWRITER"
+>url.URLTypeRewriter</A
+></DT
+><DT
+>5.12. <A
+HREF="#HANDLERS.VIRTUAL"
+>virtual.Virtual</A
+></DT
+><DT
+>5.13. <A
+HREF="#HANDLERS.ZIP"
+>ZIP.ZIPHandler</A
+></DT
+></DL
+></DD
+><DT
+>6. <A
+HREF="#TYPES"
+>Gopher Item Types</A
+></DT
+><DT
+>I. <A
+HREF="#PYGOPHERD.MAN"
+>PyGopherd Manpage</A
+></DT
+><DD
+><DL
+><DT
+><A
+HREF="#AEN474"
+>pygopherd</A
+>&nbsp;--&nbsp;Multiprotocol Information Server</DT
+></DL
+></DD
+></DL
+></DIV
+><DIV
+CLASS="CHAPTER"
+><HR><H1
+><A
+NAME="PYGOPHERD.INTRO"
+></A
+>Chapter 1. Introduction to PyGopherd</H1
+><P
+>    Welcome to <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>.  In a nutshell, <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>
+    is a modern dynamic
+    multi-protocol hierarchical information server with a pluggable
+    modularized extension system, 
+    full flexible caching, virtual files and
+    folders, and autodetection of file types -- all with support for
+    standardized yet extensible per-document metadata. Whew! Read on for
+    information on what all these buzzwords mean.
+  </P
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="FEATURES"
+>1.1. Features</A
+></H2
+><P
+>      Here are some of <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>'s features:
+    </P
+><P
+></P
+><UL
+><LI
+><P
+>Provides built-in support for multiple protocols:
+	  HTTP (Web), Gopher+, Gopher (RFC1436), Enhanced Gopher0,
+	  Gemini, Spartan, and WAP (mobile phones).  Protocols can be enabled or
+	  disabled as desired.
+	</P
+></LI
+><LI
+><P
+>Provides protocol autodetection.  That is,
+	  <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> can listen for all the above protocols
+	  <SPAN
+CLASS="emphasis"
+><I
+CLASS="EMPHASIS"
+>on a single port</I
+></SPAN
+> and will
+	  automatically respond using the protocol it detects the
+	  client is using.  Practical effects of this are that you
+	  can, for instance, give out a single URL and have it
+	  viewable normally on desktop Web browsers and in WAP
+	  mode on mobile phones -- and appropriately in various
+	  Gopher browsers.
+	</P
+></LI
+><LI
+><P
+>Metadata and site links can be entered in a
+	  variety of formats, including full UMN dotfile metadata
+	  formats as well as Bucktooth gophermap files.  Moreover,
+	  gophermap files are not limited to Gopher protocols, and
+	  can be used for all protocols.
+	</P
+></LI
+><LI
+><P
+>Support for inter-protocol linking (linking
+	  from Gopher sites to web sites)</P
+></LI
+><LI
+><P
+>Virtual folder system lets you serve up
+	  anything as if it were regular files and directories.
+	  PyGopherd comes with the following virtual folder systems
+	  built in:</P
+><P
+></P
+><UL
+><LI
+><P
+>Can present any Unix MBOX, MMDF box, MH
+	      directory, Maildir directory, or Babyl mailbox as a
+	      virtual folder, the contents of which are the
+	      messages in the mailbox.
+	    </P
+></LI
+><LI
+><P
+>Can use a configurable separator to
+	      split a file into multiple parts, the first line of each
+	      becoming the name for the virtual folder.</P
+></LI
+><LI
+><P
+>Can peek inside a ZIP file and serve it
+	      up as first-class site citizens -- metadata can even be
+	      stored in the ZIP files.
+	    </P
+></LI
+><LI
+><P
+>Can serve up the contents of a dictd
+	      server as a filesystem.
+	    </P
+></LI
+></UL
+></LI
+><LI
+><P
+>	  Modular, extensible design: you can use PyGopherd's own
+	  PYG extension format, or UMN- or Bucktooth-style
+	  executables.
+	</P
+></LI
+><LI
+><P
+>	  Runs on any platform supported by Python 2.2, 2.3, or 2.4.
+	  This includes virtually every past and current flavor of
+	  Unix (Linux, *BSD, Solaris, SunOS), Windows, MacOS 9.x
+	  and X, and more.  Some features may not be available on
+	  non-Unix platforms.
+	</P
+></LI
+><LI
+><P
+>Runs on any platform supported by Java 1.1
+	  via the Jython Python implementation.</P
+></LI
+><LI
+><P
+>Tunable server types via configuration
+	  directive -- forking or threading.</P
+></LI
+><LI
+><P
+>Secure design with support for chrooted execution.</P
+></LI
+><LI
+><P
+>Feature-complete, full implementations of:
+	  Gopher0 (RFC1435), Gopher+, HTTP, and WAP.</P
+></LI
+><LI
+><P
+>Support for automatically finding the titles
+	  of HTML documents for presentation in a directory.</P
+></LI
+><LI
+><P
+>Versatile configuration file format is both
+	  extensible and nicely complementary of the module system.</P
+></LI
+><LI
+><P
+>Protocol-independent, handler-dependent
+	  caching.  This increases performance by letting handlers
+	  cache dynamically-generated information -- currently used by
+	  the directory handlers.  This can improve performance of
+	  directories by several orders of magnitude.  Because this is
+	  a handler cache only, all protocols share the single
+	  cache.  Since the processing time for the protocols is
+	  negligible, this works out very well.</P
+></LI
+><LI
+><P
+>Autosensing of MIME types and gopher0 item
+	  types.  Both are completely configurable.  MIME type
+	  detection is done using a standard mime.types file, and
+	  gopher0 types are calculated by using a configurable
+	  regexp-based MIME-to-gophertype map.</P
+></LI
+><LI
+><P
+>Heavy support of regular expressions in configuration.</P
+></LI
+><LI
+><P
+>ProtocolMultiplexer and HandlerMultiplexer
+	  let you choose only those protocols and handlers that you
+	  wish your server to support and the order in which they are
+	  tried when a request comes in.
+	</P
+></LI
+><LI
+><P
+>Full logging via syslog.</P
+></LI
+></UL
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="ABOUTGOPHER"
+>1.2. About Gopher</A
+></H2
+><P
+>      <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> started life as a server for the Gopher Internet
+      protocol. With Gopher, you can mount a filesystem (viewing files and
+      folders as if they were local),
+      browse Gopherspace with a web browser,
+      download files, and be interactive with searching.
+    </P
+><P
+>      But this is only part of the story. The world of Gopher is more
+      expansive than this. There are two major gopher protocols: Gopher0
+      (also known as RFC1436) and Gopher+. Gopher0 is a small, simple,
+      lightweight protocol that is very functional yet also extremely easy
+      to implement. Gopher0 clients can be easily placed in small embedded
+      devices or in massive environments like a modern web browser.
+    </P
+><P
+>      Gopher+ is based on Gopher0 but extends it by providing document
+      metadata such as file size and MIME type. Gopher+ allows all sorts of
+      neat features, such as configurable metadata (serving up a bunch of
+      photos? Add a Subject field to your metadata to let
+      a customized photo
+      browser display who is pictured) and multiple
+      views of a file (let the
+      user select to view your photos as PNG or JPEG).
+    </P
+></DIV
+></DIV
+><DIV
+CLASS="CHAPTER"
+><HR><H1
+><A
+NAME="QUICKSTART"
+></A
+>Chapter 2. Quick Start</H1
+><P
+>	If you have already installed <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> system-wide, or your
+	administrator has done that for you, your task for setting up
+	<SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> for the first time is quite simple.  You just need
+	to set up your configuration file, make your folder directory,
+	and run it!
+      </P
+><P
+>	You can quickly set up your configuration file.  The
+	distribution includes two files of interest:
+	<TT
+CLASS="FILENAME"
+>conf/pygopherd.conf</TT
+> and
+	<TT
+CLASS="FILENAME"
+>conf/mime.types</TT
+>.  Debian users will find
+	the configuration file pre-installed in
+	<TT
+CLASS="FILENAME"
+>/etc/pygopherd/pygopherd.conf</TT
+> and the
+	<TT
+CLASS="FILENAME"
+>mime.types</TT
+> file provided by the system
+	already.
+      </P
+><P
+>	Open up <TT
+CLASS="FILENAME"
+>pygopherd.conf</TT
+> in your editor and
+	adjust to suit.  The file is heavily commented and you can
+	refer to it for detailed information.  Some settings to take a
+	look at include: <SPAN
+CLASS="PROPERTY"
+>detach</SPAN
+>,
+	<SPAN
+CLASS="PROPERTY"
+>pidfile</SPAN
+>, <SPAN
+CLASS="PROPERTY"
+>port</SPAN
+>, 
+	<SPAN
+CLASS="PROPERTY"
+>usechroot</SPAN
+>, <SPAN
+CLASS="PROPERTY"
+>setuid</SPAN
+>,
+	<SPAN
+CLASS="PROPERTY"
+>setgid</SPAN
+>, and <SPAN
+CLASS="PROPERTY"
+>root</SPAN
+>.
+	These may or may not work at their defaults for you.  The
+	remaining ones should be fine for a basic setup.
+      </P
+><P
+>	Invoke <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> with <B
+CLASS="COMMAND"
+>pygopherd
+	  path/to/configfile</B
+> (or
+	<B
+CLASS="COMMAND"
+>/etc/init.d/pygopherd start</B
+> on Debian).
+	Place some files in the location specified by the
+	<SPAN
+CLASS="PROPERTY"
+>root</SPAN
+> directive in the config file and
+	you're ready to run!
+      </P
+></DIV
+><DIV
+CLASS="CHAPTER"
+><HR><H1
+><A
+NAME="INSTALLATION"
+></A
+>Chapter 3. Installation</H1
+><P
+>    If  you  are  reading this document via the "man" command, it is likely
+    that you have no installation tasks to perform; your system administrator
+    has already installed <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>.  If you need to install it yourself, you
+    have three options: a system-wide installation with Debian, system-wide
+    installation  with  other systems, and a single-user installation.  You
+    can    download    the    latest    version    of    PyGopherd
+    from
+    <A
+HREF="https://github.com/michael-lazar/pygopherd"
+TARGET="_top"
+>https://github.com/michael-lazar/pygopherd</A
+>
+  </P
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="INSTALLATION.DEBIAN"
+>3.1. Debian System-Wide Installation</A
+></H2
+><P
+>      You may install
+      <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> by simply running this command as root:
+    </P
+><P
+>      <B
+CLASS="COMMAND"
+>apt-get install pygopherd</B
+>
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="INSTALLATION.OTHER"
+>3.2. Other System-Wide Installation</A
+></H2
+><P
+>      Download the tar.gz version of the package from the website.  Make
+      sure you have Python 3.7 or above installed; if not, download and
+      install it from <A
+HREF="http://www.python.org/"
+TARGET="_top"
+>http://www.python.org/</A
+>.  Then run these
+      commands:
+    </P
+><PRE
+CLASS="PROGRAMLISTING"
+>      <B
+CLASS="COMMAND"
+>tar -zxvf pygopherd-x.y.z.tar.gz</B
+>
+      <B
+CLASS="COMMAND"
+>cd pygopherd-x.y.z</B
+>
+      <B
+CLASS="COMMAND"
+>python3 setup.py</B
+>
+    </PRE
+><P
+>      Next, proceed to configuration.  Make sure that the
+      <TT
+CLASS="FILENAME"
+>/etc/pygopherd/pygopherd.conf</TT
+> file
+      names valid users (<SPAN
+CLASS="PROPERTY"
+>setuid</SPAN
+> and
+      <SPAN
+CLASS="PROPERTY"
+>setgid</SPAN
+> options) and a valid document
+      root (<SPAN
+CLASS="PROPERTY"
+>root</SPAN
+> option).
+    </P
+><P
+>      You will type <TT
+CLASS="FILENAME"
+>pygopherd</TT
+> to invoke the
+      program.
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="INSTALLATION.SINGLE"
+>3.3. Single-Account Installation</A
+></H2
+><P
+>      Download the tar.gz version of the package from the website.  Make
+      sure you have Python 2.2 or above installed; if now, download and
+      install it from <A
+HREF="http://www.python.org/"
+TARGET="_top"
+>http://www.python.org/</A
+>.  Then run these
+      commands:
+    </P
+><PRE
+CLASS="PROGRAMLISTING"
+>      <B
+CLASS="COMMAND"
+>tar -zxvf pygopherd-z.y.z.tar.gz</B
+>
+      <B
+CLASS="COMMAND"
+>cd pygopherd-x.y.z</B
+>
+    </PRE
+><P
+>      Modify <TT
+CLASS="FILENAME"
+>conf/pygopherd.conf</TT
+> as follows:
+    </P
+><P
+></P
+><UL
+><LI
+><P
+>Set <SPAN
+CLASS="PROPERTY"
+>usechroot = no</SPAN
+></P
+></LI
+><LI
+><P
+>Set <SPAN
+CLASS="PROPERTY"
+>root</SPAN
+> to something appropriate.</P
+></LI
+><LI
+><P
+>Set <SPAN
+CLASS="PROPERTY"
+>port</SPAN
+> to a number
+	  greater than 1024.</P
+></LI
+></UL
+><P
+>      When you want to run <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>, you will issue the
+      <B
+CLASS="COMMAND"
+>cd</B
+> command as above and then type
+      <B
+CLASS="COMMAND"
+>PYTHONPATH=. bin/pygopherd</B
+>.  There is no
+      installation step necessary.
+    </P
+></DIV
+></DIV
+><DIV
+CLASS="CHAPTER"
+><HR><H1
+><A
+NAME="CONFIGURATION"
+></A
+>Chapter 4. Configuration</H1
+><P
+>    <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> is regulated by a configuration file normally
+    stored in <TT
+CLASS="FILENAME"
+>/etc/pygopherd/pygopherd.conf</TT
+>.
+    You can specify an alternate configuration file on the command
+    line.  The <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> distribution ships
+    with a sample <TT
+CLASS="FILENAME"
+>pygopherd.conf</TT
+> file that
+    thoroughly documents the configuration file options and
+    settings.
+  </P
+></DIV
+><DIV
+CLASS="CHAPTER"
+><HR><H1
+><A
+NAME="HANDLERS"
+></A
+>Chapter 5. Handlers</H1
+><P
+>    <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> defines several handlers which are responsible for
+    finding data on your server and presenting it to the user.  The
+    handlers are used to generate things like links to other documents and
+    directory listings.  They are also responsible for serving up regular
+    files and even virtual folders.
+  </P
+><P
+>    Handlers are specified with the <SPAN
+CLASS="PROPERTY"
+>handlers</SPAN
+>
+    option in <TT
+CLASS="FILENAME"
+>pygopherd.conf</TT
+>.  This option is
+    a list of handlers to use.  For each request that arrives,
+    <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> will ask each handler in
+    turn whether or not it can handle the request, and will handle the
+    request according to the first handler that is capable of doing so.
+    If no handlers can handle the request, a file not found error is
+    generated.  See the example configuration file for an example.
+  </P
+><P
+>    The remaining parts of this section describe the different
+    handlers that ship with <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>.
+  </P
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.DIRHANDLER"
+>5.1. dir.DirHandler</A
+></H2
+><P
+>      This handler is a basic one that generates menus based
+      on the contents of a directory.  It is used for
+      directories that contain neither a
+      <TT
+CLASS="FILENAME"
+>gophermap</TT
+> file nor UMN-style links
+      files, or situations where you have no need for either
+      of those.
+    </P
+><P
+>      This handler simply reads the contents of your on-disk
+      directory, determines the appropriate types of each file,
+      and sends the result to the client.  The descriptions of
+      each item are usually set to the filename, but the
+      <SPAN
+CLASS="PROPERTY"
+>html.HTMLFileTitleHandler</SPAN
+> may override
+      that.
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.BUCKGOPHERMAP"
+>5.2. gophermap.BuckGophermapHandler</A
+></H2
+><P
+>      This handler is used to generate directory listings
+      based on <TT
+CLASS="FILENAME"
+>gophermap</TT
+> files.  It will
+      not read the directory on-disk, instead serving content
+      from the <TT
+CLASS="FILENAME"
+>gophermap</TT
+> file only.
+      Gophermaps are useful if you want to present a directory
+      in which the files do not frequently change and there is
+      general information to present.  Overall, if you only
+      wish to present information particular to certain files,
+      you should consider using the abstract feature of
+      UMN.UMNDirHandler.
+    </P
+><P
+>      The <TT
+CLASS="FILENAME"
+>gophermap</TT
+> files contain two
+      types of lines, which are described here using the same
+      convention normally used for command line arguments.  In
+      this section, the symbol \t will be used to indicate a
+      tab character, Control-I.
+    </P
+><P
+> <TT
+CLASS="REPLACEABLE"
+><I
+>full line of informational
+	  text</I
+></TT
+> </P
+><P
+> <TT
+CLASS="REPLACEABLE"
+><I
+>gophertypeDESCRIPTION</I
+></TT
+>  [\t<TT
+CLASS="REPLACEABLE"
+><I
+>selector</I
+></TT
+> [\t<TT
+CLASS="REPLACEABLE"
+><I
+>host</I
+></TT
+> [\t<TT
+CLASS="REPLACEABLE"
+><I
+>port</I
+></TT
+>]]]</P
+><P
+>      Note: spaces shown above are for clarity only and should
+      not actually be present in your file.
+    </P
+><P
+>      The informational text must not contain any tab
+      characters, but may contain spaces.  Informational text
+      will be rendered with gopher type
+      <SPAN
+CLASS="PROPERTY"
+>i</SPAN
+>, which will cause it to be
+      displayed on a client's screen at its particular
+      position in the file.
+    </P
+><P
+>      The second type of line represents a link to a file or
+      directory.  It begins with a single-character Gopher
+      type (see Gopher Item Types below) followed immediately
+      by a description and a tab character.  There is no space
+      or other separator between the gopher type and the
+      description.  The description may contain spaces but not
+      tabs.
+    </P
+><P
+>      The remaining arguments are optional, but only to the
+      extent that arguments may be omitted only if all
+      arguments after them are also omitted.  These arguments
+      are:
+    </P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+><TT
+CLASS="REPLACEABLE"
+><I
+>selector</I
+></TT
+></DT
+><DD
+><P
+>The <SPAN
+CLASS="PROPERTY"
+>selector</SPAN
+> is
+	    the name of the file on the server.  If it begins
+	    with a slash, it is an absolute path; otherwise,
+	    it is interpreted relative to the directory that
+	    the gophermap file is in.  If no selector is
+	    specified, the description is also used as the
+	    selector.
+	  </P
+></DD
+><DT
+><TT
+CLASS="REPLACEABLE"
+><I
+>host</I
+></TT
+></DT
+><DD
+><P
+>The <SPAN
+CLASS="PROPERTY"
+>host</SPAN
+>
+	    specifies the host on which this resource is
+	    located.  If not specified, defaults to the
+	    current server.
+	      </P
+></DD
+><DT
+><TT
+CLASS="REPLACEABLE"
+><I
+>port</I
+></TT
+></DT
+><DD
+><P
+>The <SPAN
+CLASS="PROPERTY"
+>port</SPAN
+>
+	    specifies the port on which the resource is
+	    located.  If not specified, defaults to the port
+	    the current server is listening on.
+	  </P
+></DD
+></DL
+></DIV
+><P
+>      An example of a gophermap to help illustrate the concept
+      is included with the <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> distribution in the
+      file <TT
+CLASS="FILENAME"
+>examples/gophermap</TT
+>.
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.COMPRESSEDFILEHANDLER"
+>5.3. file.CompressedFileHandler</A
+></H2
+><P
+>      In order to save space, you might want to store
+      documents on-disk in a compressed format.  But then
+      clients would ordinarily have to decompress the files
+      themselves.  It would be nice to have the server
+      automatically decompress the files on the fly, sending
+      that result to the client.  That's where
+      <SPAN
+CLASS="PROPERTY"
+>file.CompressedFileHandler</SPAN
+> comes
+      in.
+    </P
+><P
+>      This handler will take compressed files, pipe them
+      through your chosen decompression program, and send the
+      result directly to clients -- completely transparently.
+    </P
+><P
+>      To use this handler, set the
+      <SPAN
+CLASS="PROPERTY"
+>decompressors</SPAN
+> option in the
+      configuration file.  This option defines a mapping from
+      MIME encodings (as defined with the
+      <SPAN
+CLASS="PROPERTY"
+>encoding</SPAN
+> option) to decompression
+      programs.  Files that are not encoded, or which have an
+      encoding that does not occur in the
+      <SPAN
+CLASS="PROPERTY"
+>decompressors</SPAN
+> map, will not be
+      decompressed by this handler.
+    </P
+><P
+>      Please see the sample configuration file for more
+      examples and details about the configuration of this
+      handler.
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.FILEHANDLER"
+>5.4. file.FileHandler</A
+></H2
+><P
+>      The <SPAN
+CLASS="PROPERTY"
+>file.FileHandler</SPAN
+> is just that
+      -- its duty is to serve up regular files to clients.
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.HTMLFILETITLEHANDLER"
+>5.5. html.HTMLFileTitleHandler</A
+></H2
+><P
+>      This handler is used when generating directories and
+      will set the description of HTML files to the HTML title
+      defined in them rather than let it be the default
+      filename.  Other than that, it has no effect.  UMN
+      gopherd implements a similar policy.
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.MAILBOXES"
+>5.6. mbox handlers</A
+></H2
+><P
+>      There are four mailbox handlers:
+    </P
+><P
+></P
+><UL
+><LI
+><P
+>mbox.MaildirFolderHandler</P
+></LI
+><LI
+><P
+>mbox.MaildirMessageHandler</P
+></LI
+><LI
+><P
+>mbox.MBoxMessageHandler</P
+></LI
+><LI
+><P
+>mbox.MBoxFolderHandler</P
+></LI
+></UL
+><P
+>      These four handlers provide a unique "virtual folder"
+      service.  They allow you to present mailboxes as if they
+      were folders, the items of the folders being the
+      messages in the mailbox, organized by subject.  This is
+      useful for presenting mail archives or just making
+      e-mail accessible in a nice and easy fashion.
+    </P
+><P
+>      To use these handlers, all you have to do is enable them
+      in your <SPAN
+CLASS="PROPERTY"
+>handlers</SPAN
+> section.  They
+      will automatically detect requests for mailboxes and
+      handle them appropriately.
+    </P
+><P
+>      The different handlers are for traditional Unix mbox
+      mailboxes (all messages in a single file) and new
+      qmail-stype Maildir mailboxes.  You can enable only the
+      two handlers for the specific mailbox type that you use,
+      if desired.
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.PYGHANDLER"
+>5.7. pyg.PYGHandler</A
+></H2
+><P
+>      PYG (short for PYGopherd) is a mechanism that provides a
+      tremendous amount of flexibility.  Rather than just
+      letting you execute a script like other Gopher or HTTP
+      servers, PYGs are actually loaded up into PyGopherd and
+      become fully-capable first-class virtual handlers.  Yet
+      they need not be known ahead of time, and are loaded
+      dynamically.
+    </P
+><P
+>      With a PYG handler, you can generate gopher directories,
+      handle searches, generate files, and more on the fly.
+      You can create entire virtual directory trees (for
+      instance, to interface with NNTP servers or with DICT
+      servers), and access them all using the standard Gopher
+      protocol.  All of this without having to modify even one
+      line of <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> code.
+    </P
+><P
+>      If enabled, the <SPAN
+CLASS="PROPERTY"
+>pyg.PYGHandler</SPAN
+> will
+      look for files with the extension .pyg that are marked
+      executable.  If found, they will be loaded and run as
+      PYGs.
+    </P
+><P
+>      Please note: this module provides the capability to
+      execute arbitrary code.  Please consider the security
+      ramifications of that before enabling it.
+    </P
+><P
+>      See the <SPAN
+CLASS="PROPERTY"
+>virtual.Virtual</SPAN
+> handler for
+      more information about passing data to your scripts at
+      runtime.
+    </P
+><P
+>      At present, documentation on writing PYGs is not
+      provided, but you may find examples in the
+      <SPAN
+CLASS="PROPERTY"
+>pygfarm</SPAN
+> directory included with the
+      <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> distribution.
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.EXECHANDLER"
+>5.8. scriptexec.ExecHandler</A
+></H2
+><P
+>      This handler implements "old-style" script execution;
+      that is, executing arbitrary programs and piping the
+      result to the client.  It is, for the most part,
+      compatible with both scripts written for UMN gopherd and
+      the Bucktooth gopher server.  If enabled, it will
+      execute any file that is marked executable in the
+      filesystem.  It will normally list scripts as returning
+      plain text, but you may create a custom link to the
+      script that defines it as returning whatever kind of
+      file you desire.  Unlike PYGs, this type must be known
+      in advance.
+    </P
+><P
+>      The <SPAN
+CLASS="PROPERTY"
+>scriptexec.ExecHandler</SPAN
+> will set
+      environment variables for your scripts to use.  They are
+      as follows:
+    </P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>SERVER_NAME</DT
+><DD
+><P
+>The name of this server as defined in
+	    the configuration file or detected from the
+	    operating system.</P
+></DD
+><DT
+>SERVER_PORT</DT
+><DD
+><P
+>The port this server is listening on.</P
+></DD
+><DT
+>REMOTE_ADDR</DT
+><DD
+><P
+>The IP address of the client.</P
+></DD
+><DT
+>REMOTE_PORT</DT
+><DD
+><P
+>The port number of the client.</P
+></DD
+><DT
+>REMOTE_HOST</DT
+><DD
+><P
+>The same value as <SPAN
+CLASS="PROPERTY"
+>REMOTE_ADDR</SPAN
+></P
+></DD
+><DT
+>SELECTOR</DT
+><DD
+><P
+>The file that was requested; that is,
+	    the relative path to this script.  If the selector
+	    included additional parameters after a |, they
+	    will be included in this string as well.
+	  </P
+></DD
+><DT
+>REQUEST</DT
+><DD
+><P
+>The "base" part of the selector; that
+	    is, the part leading up to the |.</P
+></DD
+><DT
+>SEARCHREQUEST</DT
+><DD
+><P
+>Included only if the client specified
+	    search data, this is used if the client is
+	    searching for something.
+	  </P
+></DD
+></DL
+></DIV
+><P
+>      See the <SPAN
+CLASS="PROPERTY"
+>virtual.Virtual</SPAN
+> handler for
+      more information about passing data to your scripts at
+      runtime.
+    </P
+><P
+>      Please note: this module provides the capability to
+      execute arbitrary code.  Please consider the security
+      ramifications of that before enabling it.
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.UMN"
+>5.9. UMN.UMNDirHandler</A
+></H2
+><P
+>      This is one of the most powerful workhorse handlers in
+      <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>.  It is designed to emulate most of the ways
+      in which the UMN gopherd distribution generates
+      directories, even going so far as to be bug-compatible
+      in some cases.  Generating directories with this handler
+      is often the best general-purpose way to make nice
+      directories in gopherspace.
+    </P
+><P
+>      The remainder of the description of the
+      <SPAN
+CLASS="PROPERTY"
+>UMN.UMNDirHandler</SPAN
+>, except for the
+      Abstracts and Info section, is lifted directly from the
+      original UMN gopherd documentation, with light editing,
+      because this handler implements it so exactly that there
+      was no point in rewriting all that documentation :-)
+    </P
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="HANDLERS.UMN.LINKS"
+>5.9.1. Links</A
+></H3
+><P
+>	You can override the default view of a directory as
+	generated by <SPAN
+CLASS="PROPERTY"
+>dir.DirHandler</SPAN
+> by
+	creating what are known as <SPAN
+CLASS="emphasis"
+><I
+CLASS="EMPHASIS"
+>Links</I
+></SPAN
+> in
+	the data tree.
+      </P
+><P
+>	The ability to make links to other hosts is how gopher
+	distributes itself among multiple hosts.  There are two
+	different ways to make a link.  The first and simplest is
+	to create a link file that contains the data needed by the
+	server.  By default all files in the gopher data directory
+	starting with a period are taken to be link files.  A link
+	file can contain multiple links.  To define a link you
+	need to put five lines in a link file that define the
+	needed characteristics for the document.  Here is an
+	example of a link.
+      </P
+><PRE
+CLASS="PROGRAMLISTING"
+>Name=Cheese Ball Recipes
+Numb=1
+Type=1
+Port=150
+Path=1/Moo/Cheesy
+Host=zippy.micro.umn.edu
+      </PRE
+><P
+>	The Name= line is what the user will see when cruising
+	through the database.  In this case the name is "Cheese
+	Ball Recipes".  The "Type=" defines what kind of document
+	this object is.  For a list of all defined types, see
+	Gopher Item Types below.  For Gopher+ and HTTP, a MIME
+	type is also used, which is determined automatically based
+	on the type you specify.
+      </P
+><P
+>	The "Path=" line contains the selector string that the
+	client will use to retrieve the actual document.  The
+	Numb= specifies that this entry should be presented first
+	in the directory list (instead of being alphabetized).
+	The "Numb=" line is optional.  If it is present it cannot
+	be the last line of the link.  The "Host=" and "Port="
+	lines specify a fully qualified domain name (FQDN) and a
+	port respectively.  You may substitute a plus '+' for
+	these two parameters if you wish.  The server will insert
+	the current hostname and the current port when it sees a
+	plus in either of these two fields.
+      </P
+><P
+>An easy way to retrieve links is to use the Curses
+	Gopher Client.  By pressing '=' You can get information
+	suitable for inclusion in a link file.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="HANDLERS.UMN.OVERRIDING"
+>5.9.2. Overriding Defaults</A
+></H3
+><P
+>	The server looks for a directory called
+	<TT
+CLASS="FILENAME"
+>.cap</TT
+> when parsing a directory.  The
+	server then checks to see if the <TT
+CLASS="FILENAME"
+>.cap</TT
+>
+	directory contains a file with the same name as the file
+	it's parsing.  If this file exists then the server will
+	open it for reading.  The server parses this file just
+	like a link file.  However, instead of making a new
+	object, the parameters inside the
+	<TT
+CLASS="FILENAME"
+>.cap/</TT
+> file are used to override any
+	of the server supplied default values.
+      </P
+><P
+>	For instance, say you wanted to change the Title of a text
+	file for gopher, but don't want to change the filename.
+	You also don't want it alphabetized, instead you want it
+	second in the directory listing.  You could make a
+	set-aside file in the <TT
+CLASS="FILENAME"
+>.cap</TT
+> directory with the same
+	filename that contained the following lines:
+      </P
+><PRE
+CLASS="PROGRAMLISTING"
+>Name=New Long Cool Name
+Numb=2
+      </PRE
+><P
+>	An alternative to <TT
+CLASS="FILENAME"
+>.cap</TT
+> files are
+	extended link files.  They work just the same as the files
+	described in Links above, but have a somewhat abbreviated
+	format.  As an example, if the name of the file was
+	<TT
+CLASS="FILENAME"
+>file-to-change</TT
+>, then you could create
+	a file called <TT
+CLASS="FILENAME"
+>.names</TT
+> with the
+	following contents:
+      </P
+><PRE
+CLASS="PROGRAMLISTING"
+>Path=./file-to-change
+Name=New Long Cool Name
+Numb=2
+      </PRE
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="HANDLERS.UMN.COOL"
+>5.9.3. Adding Cool Links</A
+></H3
+><P
+>	One cool thing you can do with .Links is to add neato
+	services to your gopher server.  Adding a link like this:
+      </P
+><PRE
+CLASS="PROGRAMLISTING"
+>Name=Cool ftp directory
+Type=h
+Path=/URL:ftp://hostname/path/
+Host=+
+Port=+
+ 
+Name=Cool web site
+Type=h
+Path=/URL:http://hostname/
+Host=+
+Port=+
+      </PRE
+><P
+>	Will allow you to link in any FTP or Web site to your
+	gopher.  (See url.URLHandler for more details.)
+      </P
+><P
+>	You can easily add a finger site to your gopher server thusly:
+      </P
+><PRE
+CLASS="PROGRAMLISTING"
+>Name=Finger information
+Type=0
+Path=lindner
+Host=mudhoney.micro.umn.edu
+Port=79
+      </PRE
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="HANDLERS.UMN.HIDING"
+>5.9.4. Hiding an Entry</A
+></H3
+><P
+>	This kind of trick may be necessary in some cases,
+	and thus for
+	object "fred", the overriding .names file entry would be:
+      </P
+><PRE
+CLASS="PROGRAMLISTING"
+>Type=X
+Path=./fred
+      </PRE
+><P
+>	by overriding default type to be "X".  This
+	may be useful, when for some reason there are
+	symlinks (or whatever) in the directory at which
+	<SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> looks, and those entries are not desired to
+	be shown at all.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><HR><H3
+CLASS="SECT2"
+><A
+NAME="HANDLERS.UMN.ABSTRACTS"
+>5.9.5. Abstracts and Info</A
+></H3
+><P
+>	Many modern gopher server maintainers like to intersperse
+	gopher directory listings with other information -- often,
+	additional information about the contents of files in the
+	directory.  The gophermap system provides one way to do
+	that, and abstracts used with UMN gopher directories
+	provides another.
+      </P
+><P
+>	Subject to the <SPAN
+CLASS="PROPERTY"
+>abstract_headers</SPAN
+> and
+	<SPAN
+CLASS="PROPERTY"
+>abstract_entries</SPAN
+> configuration file
+	options, this feature allows you to define that extra
+	information.  You can do that by simply creating a file
+	named <TT
+CLASS="FILENAME"
+>filename.abstract</TT
+> right
+	alongside the regular file in your directory.  The file
+	will be interpreted as the abstract.  For a directory,
+	create a file named <TT
+CLASS="FILENAME"
+>.abstract</TT
+> in the
+	directory.  Simple as that!
+      </P
+></DIV
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.HTMLURLHANDLER"
+>5.10. url.HTMLURLHandler</A
+></H2
+><P
+>      <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> provides ways for you to link to pages outside
+      Gopherspace -- that is, web pages, FTP sites, and the like.
+      This is accomplished according to the <A
+HREF="http://lists.complete.org/gopher@complete.org/2002/02/msg00033.html.gz"
+TARGET="_top"
+>Links
+	to URL</A
+> specification (see Conforming To below for
+      details).  In order to link to a URL (EXCEPT gopher URLs)
+      from a menu, you create a link of type h (regardless of the
+      actual type of the resource that you are linking to) in your
+      <TT
+CLASS="FILENAME"
+>gophermap</TT
+> or
+      <TT
+CLASS="FILENAME"
+>.Links</TT
+>
+      file that looks like this:
+    </P
+><PRE
+CLASS="PROGRAMLISTING"
+>/URL:http://www.complete.org/
+    </PRE
+><P
+>      Modern Gopher clients that follow the Links to URL
+      specification will automatically follow that link when you
+      select it.  The rest need some help, and that's where this
+      handler comes in.
+    </P
+><P
+>      For Gopher clients that do not follow the Links to URL
+      specification, the <SPAN
+CLASS="PROPERTY"
+>url.HTMLURLHandler</SPAN
+>
+      will automatically generate an HTML document for them on the
+      fly.  This document includes a refresh code that will send
+      them to the proper page.  You should not disable this
+      handler.
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.URLTYPEREWRITER"
+>5.11. url.URLTypeRewriter</A
+></H2
+><P
+>      Some people wish to serve HTML documents from their Gopher
+      server.  One problem with that is that links in Gopherspace
+      include an extra type character at the beginning, whereas
+      links in HTTP do not.  This handler will remove the extra
+      type character from HTTP requests that come in, allowing a
+      single relative-to-root link to work for both.
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.VIRTUAL"
+>5.12. virtual.Virtual</A
+></H2
+><P
+>      This handler is not intended to ever be used directly, but
+      is used by many other handlers such as the mbox support, PYG
+      handlers, and others.  It is used to generate virtual
+      entries in the directory hierarchy -- that is, entries that
+      look normal to a client, but do not actually correspond to a
+      file on disk.
+    </P
+><P
+>      One special feature of the
+      <SPAN
+CLASS="PROPERTY"
+>virtual.Virtual</SPAN
+> handler is that you can
+      send information to it at runtime in a manner similar to a
+      CGI script on the web.  You do this by adding a question
+      mark after the regular selector, followed by any arbitrary
+      data that you wish to have sent to the virtual request
+      handler.
+    </P
+></DIV
+><DIV
+CLASS="SECT1"
+><HR><H2
+CLASS="SECT1"
+><A
+NAME="HANDLERS.ZIP"
+>5.13. ZIP.ZIPHandler</A
+></H2
+><P
+>      Using zip.ZIPHandler, you can save space on your server by
+      converting part or all of your site into a ZIP file.
+      <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> can use the contents of that ZIP file as the
+      contents of your site -- completely transparently.
+    </P
+><P
+>      The ZIP file handler must be enabled in the configuration
+      file for this to work.
+    </P
+></DIV
+></DIV
+><DIV
+CLASS="CHAPTER"
+><HR><H1
+><A
+NAME="TYPES"
+></A
+>Chapter 6. Gopher Item Types</H1
+><P
+>    When you construct links to files via
+    <TT
+CLASS="FILENAME"
+>.Links</TT
+> or <TT
+CLASS="FILENAME"
+>gophermap</TT
+>
+    files, or modify the <SPAN
+CLASS="PROPERTY"
+>mapping</SPAN
+> in the
+    configuration file, you will need to know these.  Items
+    bearing the "not implemented" text are not served up by
+    <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> as it ships, generally due to requirements of
+    customized per-site software, but may be served up via PYG
+    extension modules or other gopher servers.
+  </P
+><P
+>    This list was prepared based on RFC1436, the UMN gopherd(1) manpage,
+    and best current practices.
+  </P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>0</DT
+><DD
+><P
+>Plain text file</P
+></DD
+><DT
+>1</DT
+><DD
+><P
+>Directory</P
+></DD
+><DT
+>2</DT
+><DD
+><P
+>CSO phone book server (not implemented by <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>)</P
+></DD
+><DT
+>3</DT
+><DD
+><P
+>Error condition; text that follows is plain text</P
+></DD
+><DT
+>4</DT
+><DD
+><P
+>Macintosh file, BinHex format</P
+></DD
+><DT
+>5</DT
+><DD
+><P
+>DOS binary archive (not implemented by
+	  <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>; use type 9 instead)</P
+></DD
+><DT
+>6</DT
+><DD
+><P
+>uuencoded file; not directly generated by
+	  <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> automatically, but can be linked to
+	  manually.  Most gopher clients will handle this better
+	  as type 1.
+	</P
+></DD
+><DT
+>7</DT
+><DD
+><P
+>Search</P
+></DD
+><DT
+>8</DT
+><DD
+><P
+>Telnet link</P
+></DD
+><DT
+>9</DT
+><DD
+><P
+>Binary file</P
+></DD
+><DT
+>+</DT
+><DD
+><P
+>Redundant server (not implemented by <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>)</P
+></DD
+><DT
+>c</DT
+><DD
+><P
+>Calendar (not implemented by <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>)</P
+></DD
+><DT
+>e</DT
+><DD
+><P
+>Event (not implemented by <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>)</P
+></DD
+><DT
+>g</DT
+><DD
+><P
+>GIF-format graphic</P
+></DD
+><DT
+>h</DT
+><DD
+><P
+>HTML file</P
+></DD
+><DT
+>I</DT
+><DD
+><P
+>Any kind of graphic file other than GIF</P
+></DD
+><DT
+>i</DT
+><DD
+><P
+>Informational
+	  text included in a directory that is displayed but does not
+	  link to any actual file.</P
+></DD
+><DT
+>M</DT
+><DD
+><P
+>MIME multipart/mixed file</P
+></DD
+><DT
+>s</DT
+><DD
+><P
+>Any kind of sound file</P
+></DD
+><DT
+>T</DT
+><DD
+><P
+>tn3270 link</P
+></DD
+><DT
+>X, -</DT
+><DD
+><P
+>	  UMN-specific -- signifies that this entry should not be
+	  displayed in a directory entry, but may be accessed via a
+	  direct link.  This value is never transmitted in any Gopher
+	  protocol.
+	</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="REFERENCE"
+><A
+NAME="PYGOPHERD.MAN"
+></A
+><DIV
+CLASS="TITLEPAGE"
+><H1
+CLASS="TITLE"
+>I. PyGopherd Manpage</H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="#AEN474"
+>pygopherd</A
+>&nbsp;--&nbsp;Multiprotocol Information Server</DT
+></DL
+></DIV
+></DIV
+><H1
+><A
+NAME="AEN474"
+></A
+>pygopherd</H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN485"
+></A
+><H2
+>Name</H2
+>PyGopherd&nbsp;--&nbsp;Multiprotocol Information Server</DIV
+><DIV
+CLASS="REFSYNOPSISDIV"
+><A
+NAME="AEN488"
+></A
+><H2
+>Synopsis</H2
+><P
+><B
+CLASS="COMMAND"
+>pygopherd</B
+>  [<TT
+CLASS="REPLACEABLE"
+><I
+>configfile</I
+></TT
+>]</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="MAN.DESCRIPTION"
+></A
+><H2
+>Description</H2
+><P
+>	Welcome to <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>.  In a nutshell, <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>
+	is a modern dynamic
+	multi-protocol hierarchical information server with a pluggable
+	modularized extension system, 
+	full flexible caching, virtual files and
+	folders, and autodetection of file types -- all with support for
+	standardized yet extensible per-document metadata. Whew! Read on for
+	information on this what all these buzzwords mean.
+      </P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="MANPAGE.QUICKSTART"
+></A
+><H2
+>Quick Start</H2
+><P
+>	If you have already installed <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> system-wide, or your
+	administrator has done that for you, your task for setting up
+	<SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> for the first time is quite simple.  You just need
+	to set up your configuration file, make your folder directory,
+	and run it!
+      </P
+><P
+>	You can quickly set up your configuration file.  The
+	distribution includes two files of interest:
+	<TT
+CLASS="FILENAME"
+>conf/pygopherd.conf</TT
+> and
+	<TT
+CLASS="FILENAME"
+>conf/mime.types</TT
+>.  Debian users will find
+	the configuration file pre-installed in
+	<TT
+CLASS="FILENAME"
+>/etc/pygopherd/pygopherd.conf</TT
+> and the
+	<TT
+CLASS="FILENAME"
+>mime.types</TT
+> file provided by the system
+	already.
+      </P
+><P
+>	Open up <TT
+CLASS="FILENAME"
+>pygopherd.conf</TT
+> in your editor and
+	adjust to suit.  The file is heavily commented and you can
+	refer to it for detailed information.  Some settings to take a
+	look at include: <SPAN
+CLASS="PROPERTY"
+>detach</SPAN
+>,
+	<SPAN
+CLASS="PROPERTY"
+>pidfile</SPAN
+>, <SPAN
+CLASS="PROPERTY"
+>port</SPAN
+>, 
+	<SPAN
+CLASS="PROPERTY"
+>usechroot</SPAN
+>, <SPAN
+CLASS="PROPERTY"
+>setuid</SPAN
+>,
+	<SPAN
+CLASS="PROPERTY"
+>setgid</SPAN
+>, and <SPAN
+CLASS="PROPERTY"
+>root</SPAN
+>.
+	These may or may not work at their defaults for you.  The
+	remaining ones should be fine for a basic setup.
+      </P
+><P
+>	Invoke <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> with <B
+CLASS="COMMAND"
+>pygopherd
+	  path/to/configfile</B
+> (or
+	<B
+CLASS="COMMAND"
+>/etc/init.d/pygopherd start</B
+> on Debian).
+	Place some files in the location specified by the
+	<SPAN
+CLASS="PROPERTY"
+>root</SPAN
+> directive in the config file and
+	you're ready to run!
+      </P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="OPTIONS"
+></A
+><H2
+>Options</H2
+><P
+>	All <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> configuratoin is done via the configuration
+	file.  Therefore, the program has only one command-line
+	option:
+      </P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+><TT
+CLASS="REPLACEABLE"
+><I
+>configfile</I
+></TT
+></DT
+><DD
+><P
+>This option argument specifies the location
+	      of the configuration file that <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> is to use.</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="CONFORMING"
+></A
+><H2
+>Conforming To</H2
+><P
+></P
+><UL
+><LI
+><P
+>	    The Internet Gopher Protocol as specified in RFC1436
+	  </P
+></LI
+><LI
+><P
+>	    The Gopher+ upward-compatible enhancements to the Internet Gopher
+	    Protocol from the University of Minnesota as laid out at
+	    <A
+HREF="gopher://gopher.quux.org/0/Archives/mirrors/boombox.micro.umn.edu/pub/gopher/gopher_protocol/Gopher+/Gopher+.txt"
+TARGET="_top"
+>gopher://gopher.quux.org/0/Archives/mirrors/boombox.micro.umn.edu/pub/gopher/gopher_protocol/Gopher+/Gopher+.txt</A
+>.
+	  </P
+></LI
+><LI
+><P
+>	    The gophermap file format as originally implemented in the
+	    Bucktooth gopher server and described at
+	    <A
+HREF="gopher://gopher.floodgap.com/0/buck/dbrowse%3Ffaquse%201"
+TARGET="_top"
+>gopher://gopher.floodgap.com/0/buck/dbrowse%3Ffaquse%201</A
+>.
+	  </P
+></LI
+><LI
+><P
+>	    The Links to URL specification as laid out by John Goerzen
+	    at
+	    <A
+HREF="gopher://gopher.quux.org/0/Archives/Mailing%20Lists/gopher/gopher.2002-02%3f/MBOX-MESSAGE/34"
+TARGET="_top"
+>gopher://gopher.quux.org/0/Archives/Mailing%20Lists/gopher/gopher.2002-02%3f/MBOX-MESSAGE/34</A
+>.
+	  </P
+></LI
+><LI
+><P
+>	    The UMN format for specifying object attributes and links
+	    with .cap, .Links, .abstract, and similar files as specified elsewhere
+	    in this document and implemented by UMN gopherd.
+	  </P
+></LI
+><LI
+><P
+>	    The PYG format for extensible Python gopher objects as created for
+	    <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>.</P
+></LI
+><LI
+><P
+>	    Hypertext Transfer Protocol HTTP/1.0 as specified in
+	    RFC1945
+	  </P
+></LI
+><LI
+><P
+>	    Hypertext Markup Language (HTML) 3.2 and 4.0
+	    Transitional as specified in RFC1866 and RFC2854.
+	  </P
+></LI
+><LI
+><P
+>	    Maildir as specified in
+	    <A
+HREF="http://www.qmail.org/qmail-manual-html/man5/maildir.html"
+TARGET="_top"
+>http://www.qmail.org/qmail-manual-html/man5/maildir.html</A
+> and
+	    <A
+HREF="http://cr.yp.to/proto/maildir.html"
+TARGET="_top"
+>http://cr.yp.to/proto/maildir.html</A
+>.
+	  </P
+></LI
+><LI
+><P
+>	    The mbox mail storage format as specified in
+	    <A
+HREF="http://www.qmail.org/qmail-manual-html/man5/mbox.html"
+TARGET="_top"
+>http://www.qmail.org/qmail-manual-html/man5/mbox.html</A
+>.
+	  </P
+></LI
+><LI
+><P
+>	    Registered MIME media types as specified in RFC2048.
+	  </P
+></LI
+><LI
+><P
+>	    Script execution conforming to both UMN standards as laid out in UMN
+	    gopherd(1) and Bucktooth standards as specified at
+	    <A
+HREF="gopher://gopher.floodgap.com:70/0/buck/dbrowse%3ffaquse%202"
+TARGET="_top"
+>gopher://gopher.floodgap.com:70/0/buck/dbrowse%3ffaquse%202</A
+>, 
+	    so far as each can be implemented consistent with secure
+	    design principles.
+	  </P
+></LI
+><LI
+><P
+>	    Standard Python 2.2.1 or above as implemented on
+	    POSIX-compliant systems.
+	  </P
+></LI
+><LI
+><P
+>	    WAP/WML as defined by the WAP Forum.</P
+></LI
+></UL
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="BUGS"
+></A
+><H2
+>Bugs</H2
+><P
+>	Reports of bugs should be sent via e-mail to the <SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> issue tracker
+	at <A
+HREF="https://github.com/michael-lazar/pygopherd/issues"
+TARGET="_top"
+>https://github.com/michael-lazar/pygopherd/issues</A
+>.
+      </P
+><P
+>	The Web site also lists all current bugs, where you can check their
+	status or contribute to fixing them.
+      </P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="COPYRIGHT"
+></A
+><H2
+>Copyright</H2
+><P
+>	<SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> is Copyright (C) 2002-2019 John Goerzen, 2021 Michael Lazar.
+      </P
+><P
+>	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU General Public License as
+	published by the Free Software Foundation; version 2 of the
+	License.
+      </P
+><P
+>	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+      </P
+><P
+>	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to:
+      </P
+><PRE
+CLASS="PROGRAMLISTING"
+>Free Software Foundation, Inc.
+59 Temple Place
+Suite 330
+Boston, MA  02111-1307
+USA
+      </PRE
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AUTHOR"
+></A
+><H2
+>Author</H2
+><P
+>	<SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+>, its libraries, documentation, and all included
+	files (except where noted) was written by John Goerzen
+	<CODE
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:jgoerzen@complete.org"
+>jgoerzen@complete.org</A
+>&#62;</CODE
+>
+	and copyright is held as stated in the
+	Copyright section.
+      </P
+><P
+>	Portions of this manual (specifically relating to certian UMN gopherd
+	features and characteristics that PyGopherd emulates) are modified
+	versions of the original
+	gopherd(1) manpage accompanying the UMN gopher distribution.  That
+	document is distributed under the same terms as this, and
+	bears the following copyright notices:
+      </P
+><PRE
+CLASS="PROGRAMLISTING"
+>Copyright (C) 1991-2000  University of Minnesota
+Copyright (C) 2000-2002  John Goerzen and other developers
+      </PRE
+><P
+>	<SPAN
+CLASS="APPLICATION"
+>PyGopherd</SPAN
+> may be downloaded, and information found, from its
+	homepage:
+      </P
+><P
+>	<A
+HREF="https://github.com/michael-lazar/pygopherd"
+TARGET="_top"
+>https://github.com/michael-lazar/pygopherd</A
+></P
+><P
+>&#13;    </P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN598"
+></A
+><H2
+>See Also</H2
+><P
+>	python (1).
+      </P
+></DIV
+></DIV
+></DIV
+></BODY
+></HTML
+>
