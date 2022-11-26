@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## v3.0.0 (2022-11-25)
+
 ### Added
 
 - A new handler to support the spartan:// protocol (https://portal.mozz.us/gemini/spartan.mozz.us/).
@@ -21,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Disabled directory caching for the local pygopherd configuration.
 - Removed the directory heading from the top of gemini:// pages.
 - Fixed error when serving directories with trailing slashes in gemini and spartan.
+- Removed the debian/ directory (it will now be handled in Debian 
+  itself, not here).
+- Added an example systemd service file and updated the default 
+  pygopherd.conf accordingly.
 
 ## v3.0.0b2 (2020-02-12)
 
