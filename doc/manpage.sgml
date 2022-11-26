@@ -173,11 +173,8 @@
     <refsect1 id="bugs">
       <title>Bugs</title>
       <para>
-	Reports of bugs should be sent via e-mail to the &PyGopherd;
-	bug-tracking system (BTS) at
-	<email>pygopherd@bugs.complete.org</email> or submitted online
-	using the Web interface at <ulink
-	  url="http://bugs.complete.org/"></ulink>.
+	Reports of bugs should be sent via e-mail to the &PyGopherd; issue tracker
+	at <ulink url="https://github.com/michael-lazar/pygopherd/issues"></ulink>.
       </para>
       <para>
 	The Web site also lists all current bugs, where you can check their
@@ -188,7 +185,7 @@
     <refsect1 id="copyright">
       <title>Copyright</title>
       <para>
-	&PyGopherd; is Copyright (C) 2002, 2003 John Goerzen.
+	&PyGopherd; is Copyright (C) 2002-2019 John Goerzen, 2021 Michael Lazar.
       </para>
       <para>
 	This program is free software; you can redistribute it and/or
@@ -239,23 +236,13 @@ Copyright (C) 2000-2002  John Goerzen and other developers
       </programlisting>
       <para>
 	&PyGopherd; may be downloaded, and information found, from its
-	homepage via either Gopher or HTTP:
+	homepage:
       </para>
       <para>
 	<ulink
-	  url="gopher://quux.org/1/devel/gopher/pygopherd"></ulink></para>
-
+	  url="https://github.com/michael-lazar/pygopherd"></ulink></para>
       <para>
-	<ulink
-	  url="http://quux.org/devel/gopher/pygopherd"></ulink></para>
 
-      <para>
-	&PyGopherd; may also be downloaded using Subversion.  Additionally,
-	the distributed tar.gz may be updated with a simple "svn update"
-	command; it is ready to go.  For information on getting
-	&PyGopherd; with Subversion, please visit <ulink
-	  url="http://svn.complete.org/"></ulink>.
-      </para>
     </refsect1>
 
     <refsect1>

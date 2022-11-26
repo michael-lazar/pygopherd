@@ -22,7 +22,7 @@
     <itemizedlist>
       <listitem><para>Provides built-in support for multiple protocols:
 	  HTTP (Web), Gopher+, Gopher (RFC1436), Enhanced Gopher0,
-	  and WAP (mobile phones).  Protocols can be enabled or
+	  Gemini, Spartan, and WAP (mobile phones).  Protocols can be enabled or
 	  disabled as desired.
 	</para>
       </listitem>
@@ -196,7 +196,7 @@
     can    download    the    latest    version    of    PyGopherd
     from
     <ulink
-      url="http://quux.org/devel/gopher/pygopherd/"></ulink>
+      url="https://github.com/michael-lazar/pygopherd"></ulink>
   </para>
   
   <sect1 id="installation.debian">
