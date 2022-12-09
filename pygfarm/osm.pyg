@@ -1,22 +1,30 @@
 # -*-Python-*-
 # coding=UTF-8
+#
 # OpenStreetMap gopher wrapper for pygopherd
-# Copyright 2012, François Revol <revol@free.fr>
+# Copyright 2012-2022, François Revol <revol@free.fr>
 # Released under the GPLv2 license:
 # http://www.gnu.org/licenses/gpl-2.0.html
 #
-# screenshot:
+# Mandatory screenshot:
 # http://revolf.free.fr/linux/shots/shot_gosm_netsurf_001.png
 # test:
 # gopher://127.0.0.1:7070/1/osm.pyg|/map/osm/45.0195050239563/4.82608795166016/16
 #
 # TODO: add proper error handling
+
 import sys, string
 from pygopherd.handlers.pyg import PYGBase
 from pygopherd.gopherentry import GopherEntry, getinfoentry
+from pygopherd import __version__
 import math
-import httplib
+import http.client
 import json
+
+print(__version__)
+
+http_headers = {"User-Agent": "PyGopherd " + __version__ + " + OSM.pyg"}
+
 
 # from http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
 def deg2num(lat_deg, lon_deg, zoom):
@@ -176,15 +184,15 @@ class Nominatim(PYGMain):
 
         self.entries.append(getinfoentry(" ", self.config))
 
-        self.conn = httplib.HTTPConnection("nominatim.openstreetmap.org")
+        self.conn = http.client.HTTPConnection("nominatim.openstreetmap.org")
         request = "/search?q=" + string.replace(self.searchrequest, ' ', '+')
         request += "&format=json"
         request += "&polygon=0&addressdetails=0"
         request += "&limit=10"
         request += "&email=revol%2bosm.pyg@free.fr"
-        print "Asking for " + request
+        print("Asking for " + request)
         #print request.encode('hex_codec')
-        self.conn.request("GET", request)
+        self.conn.request("GET", request, headers=http_headers)
 
         r1 = self.conn.getresponse()
         results = json.load(r1)
@@ -331,8 +339,8 @@ class Tile(PYGMain):
         #HACK
         xtile = (int)(self.lat)
         ytile = (int)(self.lon)
-        self.conn = httplib.HTTPConnection("a.tile.openstreetmap.org")
-        self.conn.request("GET", "/" + str(zoom) + "/" + str(xtile) + "/" + str(ytile) + ".png")
+        self.conn = http.client.HTTPConnection("a.tile.openstreetmap.org")
+        self.conn.request("GET", "/" + str(zoom) + "/" + str(xtile) + "/" + str(ytile) + ".png", headers=http_headers)
         return
 
     def write(self, wfile):
