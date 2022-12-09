@@ -1,0 +1,365 @@
+# -*-Python-*-
+# coding=UTF-8
+# OpenStreetMap gopher wrapper for pygopherd
+# Copyright 2012, François Revol <revol@free.fr>
+# Released under the GPLv2 license:
+# http://www.gnu.org/licenses/gpl-2.0.html
+#
+# screenshot:
+# http://revolf.free.fr/linux/shots/shot_gosm_netsurf_001.png
+# test:
+# gopher://127.0.0.1:7070/1/osm.pyg|/map/osm/45.0195050239563/4.82608795166016/16
+#
+# TODO: add proper error handling
+import sys, string
+from pygopherd.handlers.pyg import PYGBase
+from pygopherd.gopherentry import GopherEntry, getinfoentry
+import math
+import httplib
+import json
+
+# from http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames
+def deg2num(lat_deg, lon_deg, zoom):
+    lat_rad = math.radians(lat_deg)
+    n = 2.0 ** zoom
+    xtile = int((lon_deg + 180.0) / 360.0 * n)
+    ytile = int((1.0 - math.log(math.tan(lat_rad) + (1 / math.cos(lat_rad))) / math.pi) / 2.0 * n)
+    return (xtile, ytile)
+
+def num2deg(xtile, ytile, zoom):
+  n = 2.0 ** zoom
+  lon_deg = xtile / n * 360.0 - 180.0
+  lat_rad = math.atan(math.sinh(math.pi * (1 - 2 * ytile / n)))
+  lat_deg = math.degrees(lat_rad)
+  return (lat_deg, lon_deg)
+
+# http://[abc].tile.openstreetmap.org/zoom/x/y.png
+def tileurl(xtile, ytile, zoom):
+    url = "http://a.tile.openstreetmap.org/"
+    url += str(zoom)
+    url += "/"
+    url += str(xtile)
+    url += "/"
+    url += str(ytile)
+    url += ".png"
+    return url
+
+#TODO:spice this up
+def sanitize_str(s):
+    return string.replace(s, "/", "").encode('UTF-8', errors='replace')
+
+#TODO:spice this up
+def urlize_str(s):
+    return string.replace(s, " ", "+").encode('UTF-8', errors='replace')
+
+#TODO:spice this up
+def deurlize_str(s):
+    return string.replace(s, "+", " ")
+
+
+class PYGMain(PYGBase):
+    def canhandlerequest(self):
+        arglist = []
+        if self.selectorargs:
+            arglist = self.selectorargs.split("/")
+        self.command = None
+        self.layer = "osm"
+        self.lat = None
+        self.lon = None
+        self.zoom = 10
+        self.commandargs = []
+        if len(arglist) >= 2:
+            self.command = arglist[1]
+        if len(arglist) >= 3:
+            self.layer = arglist[2]
+        if len(arglist) >= 4:
+            self.lat = (float)(arglist[3])
+        if len(arglist) >= 5:
+            self.lon = (float)(arglist[4])
+        if len(arglist) >= 6:
+            self.zoom = (int)(arglist[5])
+        if len(arglist) >= 7:
+            self.place = arglist[6]
+        if self.searchrequest:
+            self.commandargs.append(self.searchrequest)
+
+        if self.command == 'geo':
+            coords = self.searchrequest.split(",")
+            if len(coords) >= 2:
+                self.lat = (float)(coords[0])
+                self.lon = (float)(coords[1])
+            if len(coords) >= 3:
+                self.zoom = (int)(coords[2])
+            # redirect
+            self.command = 'map'
+            
+
+        if self.command == 'tile':
+            if self.layer and self.lat and self.lon and self.zoom:
+                self.__class__ = Tile
+        elif self.command == 'map':
+            if self.layer and self.lat and self.lon and self.zoom:
+                self.__class__ = Map
+        elif self.command == 'search' and self.searchrequest:
+                self.__class__ = Nominatim
+        else:
+            self.__class__ = TopMenu
+        return 1
+
+class TopMenu(PYGMain):
+    def prepare(self):
+        self.entries = []
+
+        entry = getinfoentry("OpenStreetMap", self.config)
+        entry.selector = 'TITLE'
+        self.entries.append(entry)
+
+        entry = getinfoentry("The Free Wiki World Map", self.config)
+        #entry.selector = 'TITLE'
+        self.entries.append(entry)
+
+        self.entries.append(getinfoentry(" ", self.config))
+
+        selector = self.genargsselector("/search")
+        entry = GopherEntry(selector, self.config)
+        entry.type = '7'
+        entry.mimetype = 'application/gopher-menu'
+        entry.name = 'Search (location)'
+        self.entries.append(entry)
+
+        selector = self.genargsselector("/geo")
+        entry = GopherEntry(selector, self.config)
+        entry.type = '7'
+        entry.mimetype = 'application/gopher-menu'
+        entry.name = 'Go to (lat,lon)'
+        self.entries.append(entry)
+
+        self.entries.append(getinfoentry(" ", self.config))
+
+        intro = ["OpenStreetMap is a free worldwide map, created by people like you.",
+                 " ",
+                 "The data is free to download and use under its open license.",
+                 " "]
+
+        for item in intro:
+            self.entries.append(getinfoentry(item, self.config))
+
+        selector = "/URL:" + "http://www.openstreetmap.org/"
+        entry = GopherEntry(selector, self.config)
+        entry.type = 'h'
+        entry.mimetype = 'text/html'
+        entry.name = 'Browse OpenStreetMap (http)'
+        self.entries.append(entry)
+
+
+    def getentry(self):
+        entry = GopherEntry(self.selector, self.config)
+        entry.type = '1'
+        entry.mimetype = 'application/gopher-menu'
+        entry.name = 'OpenStreetMap'
+        return entry
+
+    def isdir(self):
+        return 1
+
+    def getdirlist(self):
+        return self.entries
+
+# http://nominatim.openstreetmap.org/search?q=rue+bouffier,+valence&format=json
+class Nominatim(PYGMain):
+    def prepare(self):
+        self.entries = []
+
+        entry = getinfoentry("Search results for '" + deurlize_str(self.searchrequest) + "'", self.config)
+        entry.selector = 'TITLE'
+        self.entries.append(entry)
+
+        self.entries.append(getinfoentry(" ", self.config))
+
+        self.conn = httplib.HTTPConnection("nominatim.openstreetmap.org")
+        request = "/search?q=" + string.replace(self.searchrequest, ' ', '+')
+        request += "&format=json"
+        request += "&polygon=0&addressdetails=0"
+        request += "&limit=10"
+        request += "&email=revol%2bosm.pyg@free.fr"
+        print "Asking for " + request
+        #print request.encode('hex_codec')
+        self.conn.request("GET", request)
+
+        r1 = self.conn.getresponse()
+        results = json.load(r1)
+
+        for result in results:
+            #print result['place_id'] + ": " + result['display_name']
+            if result['lat'] and result['lon'] and result['display_name']:
+                lat = (float)(result['lat'])
+                lon = (float)(result['lon'])
+                selector = self.genargsselector("/map/%s/%s/%s/%s/%s" % (self.layer, lat, lon, str(self.zoom), urlize_str(result['display_name'])))
+                #print selector
+                entry = GopherEntry(selector, self.config)
+                #entry = getinfoentry("" + result['display_name'].encode('UTF-8', errors='replace'), self.config)
+                #entry.selector = selector
+                #entry.name = u"test"
+                #entry.name =
+                #print sanitize_str(result['display_name'])
+                entry.name = sanitize_str(result['display_name'])
+                entry.type = '1'
+                entry.mimetype = 'application/gopher-menu'
+                self.entries.append(entry)
+
+    def getentry(self):
+        entry = GopherEntry(self.selector, self.config)
+        entry.type = '1'
+        entry.mimetype = 'application/gopher-menu'
+        entry.name = 'OpenStreetMap Place search'
+        return entry
+
+    def isdir(self):
+        return 1
+
+    def getdirlist(self):
+        return self.entries
+
+
+class Map(PYGMain):
+    def prepare(self):
+        self.entries = []
+
+        zoom = self.zoom
+        xtile, ytile = deg2num(self.lat, self.lon, self.zoom)
+        lat_up, lon_left = num2deg(xtile + 0.5 - 1, ytile + 0.5 - 1, self.zoom)
+        lat_down, lon_right = num2deg(xtile + 0.5 + 1, ytile + 0.5 + 1, self.zoom)
+
+        entry = getinfoentry("Map for lat: " + str(self.lat) + " lon: " + str(self.lon) + " Zoom " + str(self.zoom) + ".", self.config)
+        entry.selector = 'TITLE'
+        self.entries.append(entry)
+
+        self.entries.append(getinfoentry(" ", self.config))
+
+        selector = self.genargsselector("/map/%s/%s/%s/%s" % (self.layer, self.lat, self.lon, self.zoom + 1))
+        entry = GopherEntry(selector, self.config)
+        entry.type = '1'
+        entry.mimetype = 'application/gopher-menu'
+        entry.name = 'Zoom in  [+]'
+        self.entries.append(entry)
+
+        selector = self.genargsselector("/map/%s/%s/%s/%s" % (self.layer, self.lat, self.lon, self.zoom - 1))
+        entry = GopherEntry(selector, self.config)
+        entry.type = '1'
+        entry.mimetype = 'application/gopher-menu'
+        entry.name = 'Zoom out [-]'
+        self.entries.append(entry)
+
+        selector = self.genargsselector("/map/%s/%s/%s/%s" % (self.layer, lat_up, self.lon, self.zoom))
+        entry = GopherEntry(selector, self.config)
+        entry.type = '1'
+        entry.mimetype = 'application/gopher-menu'
+        entry.name = 'north ^'
+        self.entries.append(entry)
+
+        selector = self.genargsselector("/map/%s/%s/%s/%s" % (self.layer, self.lat, lon_left, self.zoom))
+        entry = GopherEntry(selector, self.config)
+        entry.type = '1'
+        entry.mimetype = 'application/gopher-menu'
+        entry.name = '<   west'
+        self.entries.append(entry)
+
+        selector = self.genargsselector("/map/%s/%s/%s/%s" % (self.layer, self.lat, lon_right, self.zoom))
+        entry = GopherEntry(selector, self.config)
+        entry.type = '1'
+        entry.mimetype = 'application/gopher-menu'
+        entry.name = '    east   >'
+        self.entries.append(entry)
+
+        selector = self.genargsselector("/map/%s/%s/%s/%s" % (self.layer, lat_down, self.lon, self.zoom))
+        entry = GopherEntry(selector, self.config)
+        entry.type = '1'
+        entry.mimetype = 'application/gopher-menu'
+        entry.name = 'south v'
+        self.entries.append(entry)
+
+
+        selector = self.genargsselector("/tile/%s/%s/%s/%s" % (self.layer, xtile, ytile, zoom))
+        entry = GopherEntry(selector, self.config)
+        entry.type = 'I'
+        entry.mimetype = 'image/png'
+        entry.name = 'Map'
+        self.entries.append(entry)
+
+
+
+        self.entries.append(getinfoentry(" ", self.config))
+
+        selector = "/URL:" + "http://www.openstreetmap.org/?" \
+                    + "lat=" + str(self.lat) \
+                    + "&lon=" + str(self.lon) \
+                    + "&zoom=" + str(self.zoom)
+        entry = GopherEntry(selector, self.config)
+        entry.type = 'h'
+        entry.mimetype = 'text/html'
+        entry.name = 'Browse OpenStreetMap (http)'
+        self.entries.append(entry)
+
+        selector = "/URL:" + tileurl(xtile, ytile, zoom)
+        entry = GopherEntry(selector, self.config)
+        entry.type = 'h'
+        entry.mimetype = 'image/png'
+        entry.name = 'Map tile: ' + tileurl(xtile, ytile, zoom)
+        self.entries.append(entry)
+
+
+    def getentry(self):
+        entry = GopherEntry(self.selector, self.config)
+        entry.type = '1'
+        entry.mimetype = 'application/gopher-menu'
+        entry.name = 'OpenStreetMap'
+        return entry
+
+    def isdir(self):
+        return 1
+
+    def getdirlist(self):
+        return self.entries
+
+# TODO: tile the tiles (sic):
+# http://www.imagemagick.org/script/api.php
+# TODO: handle different layers
+# 
+class Tile(PYGMain):
+    def prepare(self):
+        zoom = self.zoom
+        #HACK
+        xtile = (int)(self.lat)
+        ytile = (int)(self.lon)
+        self.conn = httplib.HTTPConnection("a.tile.openstreetmap.org")
+        self.conn.request("GET", "/" + str(zoom) + "/" + str(xtile) + "/" + str(ytile) + ".png")
+        return
+
+    def write(self, wfile):
+        r1 = self.conn.getresponse()
+        #TODO: handle errors
+        #print r1.status, r1.reason
+        data1 = r1.read()
+        wfile.write(data1)
+
+    def getentry(self):
+        entry = GopherEntry(self.selector, self.config)
+        entry.type = '1'
+        entry.mimetype = 'image/png'
+        entry.name = 'tile'
+        return entry
+
+    def isdir(self):
+        return 0
+
+def unique(input):
+    """Return a list of the elements in input, but without duplicates.
+    Performs a case-insensitive check."""
+    retval = []
+    check  = {}
+    for item in input:
+        if not check.has_key(item.lower()):
+            retval.append(item)
+            check[item.lower()] = 1
+    return retval
+
