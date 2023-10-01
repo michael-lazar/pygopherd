@@ -28,12 +28,12 @@ clean:
 changelog:
 	git log -M -C --find-copies-harder --name-status > ChangeLog
 
-docs: doc/pygopherd.8 doc/pygopherd.html doc/pygopherd.ps \
-	doc/pygopherd.pdf doc/pygopherd.txt
+docs: doc/pygopherd.8 doc/pygopherd.ps \
+	doc/pygopherd.pdf doc/pygopherd.txt doc/pygopherd.html
 
-doc/pygopherd.8: doc/pygopherd.sgml
-	docbook2man doc/pygopherd.sgml
-	docbook2man doc/pygopherd.sgml
+doc/pygopherd.8: doc/pygopherd.sgml doc/book.sgml
+	docbook2man doc/book.sgml
+	docbook2man doc/book.sgml
 	-rm manpage.links manpage.refs
 	mv pygopherd.8 doc
 
@@ -41,16 +41,15 @@ doc/pygopherd.8: doc/pygopherd.sgml
 #	docbook2html -u doc/pygopherd.sgml
 #	mv pygopherd.html doc
 
-doc/pygopherd.html: doc/pygopherd.sgml
-	docbook-2-html -s local doc/pygopherd.sgml
-	mv doc/pygopherd-html/pygopherd.html doc/pygopherd.html
-	rm -r doc/pygopherd-html
+doc/pygopherd.html: doc/pygopherd.sgml doc/book.sgml
+	docbook2html -u doc/book.sgml
+	mv book.html doc/pygopherd.html
 
 #doc/pygopherd.ps: doc/pygopherd.8
 #	man -t -l doc/pygopherd.8 > doc/pygopherd.ps
 
 doc/pygopherd.ps: doc/pygopherd.sgml doc/book.sgml doc/manpage.sgml
-	docbook-2-ps -q -O -V -O paper-size=Letter -s local=printlocal \
+	docbook2ps \
 		doc/book.sgml
 	mv book.ps doc/pygopherd.ps
 
