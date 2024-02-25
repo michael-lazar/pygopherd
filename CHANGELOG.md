@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Fixed
+
+- Fixed not escaping the URL string when generating HTML responses to hURL: requests.
+
 ## v3.0.0 (2022-11-25)
 
 ### Added
