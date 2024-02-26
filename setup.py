@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name="pygopherd",
-    version="3.0.0",
+    version="3.0.1",
     description="Multiprotocol Internet Gopher Information Server",
     author="Michael Lazar",
     author_email="lazar.michael22@gmail.com",
