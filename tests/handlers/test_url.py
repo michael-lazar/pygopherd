@@ -38,6 +38,30 @@ class TestHTMLURLHandler(unittest.TestCase):
             b'<A HREF="http://gopher.quux.org/">http://gopher.quux.org/</A>', out
         )
 
+    def test_handler_escape_urls(self):
+        """
+        URLs should be escaped in the generated HTML.
+        """
+        handler = HTMLURLHandler(
+            'URL:http://gopher.quux.org/"<script>',
+            "",
+            self.protocol,
+            self.config,
+            self.stat_result,
+            self.vfs,
+        )
+
+        entry = handler.getentry()
+        self.assertEqual(entry.mimetype, "text/html")
+        self.assertEqual(entry.type, "h")
+
+        wfile = io.BytesIO()
+        handler.write(wfile)
+
+        out = wfile.getvalue()
+        self.assertNotIn(b'http://gopher.quux.org/"<script>', out)
+        self.assertIn(b"http://gopher.quux.org/&quot;&lt;script&gt;", out)
+
 
 class TestURLTypeRewriterHandler(unittest.TestCase):
     def setUp(self):

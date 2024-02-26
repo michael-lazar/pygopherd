@@ -1,3 +1,4 @@
+import html
 import re
 
 from pygopherd import gopherentry, handlers
@@ -42,6 +43,9 @@ class HTMLURLHandler(BaseHandler):
         url = self.selector[4:]  # Strip off URL:
         if self.selector[0] == "/":
             url = self.selector[5:]
+
+        url = html.escape(url)
+
         outdoc = "<HTML><HEAD>\n"
         outdoc += '<META HTTP-EQUIV="refresh" content="5;URL=%s">' % url
         outdoc += "</HEAD><BODY>\n"
@@ -77,7 +81,6 @@ class URLTypeRewriter(BaseHandler):
         )
 
     def gethandler(self):
-
         handlers.HandlerMultiplexer.init_default_handlers(self.config)
         handlerlist = [
             x for x in handlers.HandlerMultiplexer.handlers if x != URLTypeRewriter
