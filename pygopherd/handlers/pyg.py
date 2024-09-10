@@ -1,4 +1,5 @@
-import imp
+import importlib.util
+from importlib.machinery import SourceFileLoader
 import re
 import stat
 
@@ -10,6 +11,7 @@ class PYGHandler(Virtual):
     def canhandlerequest(self) -> bool:
         if not isinstance(self.vfs, VFS_Real):
             return False
+
         if not (
             self.statresult
             # Is it a regular file?
@@ -19,10 +21,16 @@ class PYGHandler(Virtual):
             and re.search(r"\.pyg$", self.getselector())
         ):
             return False
-        with self.vfs.open(self.getselector(), "r") as modf:
-            self.module = imp.load_module(
-                "PYGHandler", modf, self.getfspath(), ("", "", imp.PY_SOURCE)
-            )
+
+        fspath = self.getfspath()
+        loader = SourceFileLoader("PYGHandler", fspath)
+        spec = importlib.util.spec_from_file_location("PYGHandler", fspath, loader=loader)
+        if spec is None:
+            return False
+
+        self.module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.module)
+
         self.pygclass = self.module.PYGMain
         self.pygobject = self.pygclass(
             self.selector,
