@@ -59,7 +59,8 @@ class ThreadingTCPServerTestCase(ServerTestCase):
 
     def test_send_data_tls(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            with ssl.wrap_socket(sock) as ssock:
+            ctx = ssl.SSLContext()
+            with ctx.wrap_socket(sock) as ssock:
                 ssock.connect(self.server.server_address)
                 ssock.sendall(b"Hello World\n")
                 self.assertEqual(ssock.recv(4096), b"Hello World\n")
@@ -77,7 +78,8 @@ class ForkingTCPServerTestCase(ServerTestCase):
 
     def test_send_data_tls(self):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            with ssl.wrap_socket(sock) as ssock:
+            ctx = ssl.SSLContext()
+            with ctx.wrap_socket(sock) as ssock:
                 ssock.connect(self.server.server_address)
                 ssock.sendall(b"Hello World\n")
                 self.assertEqual(ssock.recv(4096), b"Hello World\n")

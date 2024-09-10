@@ -44,7 +44,7 @@ PYTHONPATH=. bin/pygopherd conf/local.conf
 For installing,
 
 ```
-python3 setup.py install
+python3 -m pip install .
 ```
 
 Make sure that the ``/etc/pygopherd/pygopherd.conf`` names valid users
