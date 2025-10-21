@@ -43,7 +43,7 @@
 	full flexible caching, virtual files and
 	folders, and autodetection of file types -- all with support for
 	standardized yet extensible per-document metadata. Whew! Read on for
-	information on this what all these buzzwords mean.
+	information on what all these buzzwords mean.
       </para>
     </refsect1>
 
@@ -55,7 +55,7 @@
     <refsect1 id="options">
       <title>Options</title>
       <para>
-	All &PyGopherd; configuratoin is done via the configuration
+	All &PyGopherd; configuration is done via the configuration
 	file.  Therefore, the program has only one command-line
 	option:
       </para>
@@ -173,7 +173,7 @@
     <refsect1 id="bugs">
       <title>Bugs</title>
       <para>
-	Reports of bugs should be sent via e-mail to the &PyGopherd; issue tracker
+	Report bugs using the &PyGopherd; issue tracker
 	at <ulink url="https://github.com/michael-lazar/pygopherd/issues"></ulink>.
       </para>
       <para>
