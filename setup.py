@@ -7,7 +7,7 @@ setuptools.setup(
     description="Multiprotocol Internet Gopher Information Server",
     author="Michael Lazar",
     author_email="lazar.michael22@gmail.com",
-    python_requires=">=3.7",
+    python_requires=">=3.9",
     url="https://www.github.com/michael-lazar/pygopherd",
     packages=["pygopherd", "pygopherd.handlers", "pygopherd.protocols"],
     scripts=["bin/pygopherd"],
