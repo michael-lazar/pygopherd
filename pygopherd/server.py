@@ -38,7 +38,7 @@ class BaseServer(socketserver.BaseServer):
             self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_RCVTIMEO, timeout)
             self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO, timeout)
 
-        host, port = self.socket.getsockname()
+        host, port, flowinfo, scopeid = self.socket.getsockname()
         if self.config.has_option("pygopherd", "servername"):
             self.server_name = self.config.get("pygopherd", "servername")
         else:
@@ -65,6 +65,8 @@ class BaseServer(socketserver.BaseServer):
 
 
 class ForkingTCPServer(BaseServer, socketserver.ForkingTCPServer):
+    address_family = socket.AF_INET6
+
     def process_request(
         self, request: socket.SocketType, client_address: typing.Tuple[str, int]
     ) -> None:
@@ -96,6 +98,8 @@ class ForkingTCPServer(BaseServer, socketserver.ForkingTCPServer):
 
 
 class ThreadingTCPServer(BaseServer, socketserver.ThreadingTCPServer):
+    address_family = socket.AF_INET6
+
     def process_request_thread(
         self, request: socket.SocketType, client_address: typing.Tuple[str, int]
     ) -> None:
